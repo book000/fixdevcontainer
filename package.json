@@ -1,0 +1,19 @@
+{
+  "name": "fixdevcontainer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "fixdevcontainer.js",
+  "bin": {
+    "fixdevcontainer": "fixdevcontainer.js"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "29.7.0"
+  },
+  "packageManager": "pnpm@9.0.6"
+}
