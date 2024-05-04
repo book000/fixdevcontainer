@@ -1,0 +1,7 @@
+.github/
+
+*.test.js
+
+.depcheckrc.json
+.node-version
+renovate.json
