@@ -1,5 +1,5 @@
 const fs = require("node:fs");
-const { formatter } = require("./fixdevcontainer");
+const { formatter } = require("./main");
 
 // Test case 1: Valid JSON input
 const input1 = {

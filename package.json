@@ -2,9 +2,9 @@
   "name": "fixdevcontainer",
   "version": "0.0.0",
   "description": "",
-  "main": "fixdevcontainer.js",
+  "main": "main.js",
   "bin": {
-    "fixdevcontainer": "fixdevcontainer.js"
+    "fixdevcontainer": "main.js"
   },
   "scripts": {
     "test": "jest"
