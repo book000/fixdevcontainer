@@ -1,7 +1,7 @@
 {
   "name": "fixdevcontainer",
   "version": "0.0.0",
-  "description": "",
+  "description": "Humanely sort top-level keys in devcontainer.json",
   "main": "fixdevcontainer.js",
   "bin": {
     "fixdevcontainer": "fixdevcontainer.js"

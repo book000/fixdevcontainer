@@ -5,35 +5,35 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const predefinedOrder = [
-  // 基本情報
+  // Basic information
   "$schema",
   "name",
-  // コンテナイメージ・構成
+  // Container image and configuration
   "image",
   "dockerComposeFile",
   "service",
   "runServices",
   "build",
-  // 動作設定
+  // Operational settings
   "shutdownAction",
   "overrideCommand",
   "updateRemoteUserUID",
   "init",
   "privileged",
-  // ユーザーと環境設定
+  // User and environment settings
   "containerUser",
   "containerEnv",
   "remoteUser",
   "remoteEnv",
-  // ポートとネットワーク設定
+  // Port and network settings
   "forwardPorts",
   "portsAttributes",
   "otherPortsAttributes",
-  // 機能とシークレット
+  // Features and secrets
   "features",
   "overrideFeatureInstallOrder",
   "secrets",
-  // コマンド実行と待機設定
+  // Command execution and wait settings
   "initializeCommand",
   "onCreateCommand",
   "updateContentCommand",
@@ -41,21 +41,21 @@ const predefinedOrder = [
   "postStartCommand",
   "postAttachCommand",
   "waitFor",
-  // ワークスペースとマウント設定
+  // Workspace and mount settings
   "workspaceFolder",
   "appPort",
   "runArgs",
   "workspaceMount",
-  // マウント詳細設定
+  // Mount details settings
   "type",
   "source",
   "target",
-  // ユーザー環境プローブ
+  // User environment probe
   "userEnvProbe",
-  // ホスト要件とカスタマイズ
+  // Host requirements and customizations
   "hostRequirements",
   "customizations",
-  // その他のプロパティ
+  // Other properties
   "additionalProperties",
 ];
 
