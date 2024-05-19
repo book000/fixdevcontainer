@@ -6,33 +6,41 @@ const path = require("node:path");
 
 const predefinedOrder = [
   // Basic information
-  "$schema",
   "name",
+  "$schema",
+
   // Container image and configuration
-  "image",
-  "dockerComposeFile",
-  "service",
-  "runServices",
   "build",
+  "dockerFile",
+  "context",
+  "image",
+
   // Operational settings
   "shutdownAction",
-  "overrideCommand",
-  "updateRemoteUserUID",
-  "init",
   "privileged",
+  "capAdd",
+  "securityOpt",
+  "init",
+
   // User and environment settings
-  "containerUser",
   "containerEnv",
-  "remoteUser",
+  "containerUser",
   "remoteEnv",
+  "remoteUser",
+  "userEnvProbe",
+  "updateRemoteUserUID",
+
   // Port and network settings
+  "appPort",
   "forwardPorts",
   "portsAttributes",
   "otherPortsAttributes",
+
   // Features and secrets
   "features",
   "overrideFeatureInstallOrder",
   "secrets",
+
   // Command execution and wait settings
   "initializeCommand",
   "onCreateCommand",
@@ -41,20 +49,21 @@ const predefinedOrder = [
   "postStartCommand",
   "postAttachCommand",
   "waitFor",
+
   // Workspace and mount settings
   "workspaceFolder",
-  "appPort",
-  "runArgs",
   "workspaceMount",
+
   // Mount details settings
-  "type",
-  "source",
-  "target",
+  "mounts",
+
   // User environment probe
   "userEnvProbe",
+
   // Host requirements and customizations
   "hostRequirements",
   "customizations",
+
   // Other properties
   "additionalProperties",
 ];
