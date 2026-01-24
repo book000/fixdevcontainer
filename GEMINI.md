@@ -15,7 +15,14 @@
 - 日本語と英数字の間には半角スペースを入れる。
 
 ## プロジェクト概要
-- 目的: Humanely sort top-level keys in `devcontainer.json`
+Utility tool to humanely sort top-level keys in devcontainer.json files. Inspired by fixpack.
+
+### 技術スタック
+- **言語**: JavaScript
+- **フレームワーク**: C, L, I,  , t, o, o, l
+- **パッケージマネージャー**: pnpm
+- **主要な依存関係**:
+  - jest
 
 ## コーディング規約
 - フォーマット: 既存設定（ESLint / Prettier / formatter）に従う。
@@ -23,12 +30,17 @@
 - コメント言語: 日本語
 - エラーメッセージ: 英語
 
-## 開発コマンド
+### 開発コマンド
 ```bash
-# 依存関係のインストール
+# install
 pnpm install
 
-# 開発 / テスト / Lint は README を確認してください
+# test
+jest
+
+# usage
+npx fixdevcontainer
+
 ```
 
 ## 注意事項
@@ -37,3 +49,12 @@ pnpm install
 - 既存のプロジェクトルールがある場合はそれを優先する。
 
 ## リポジトリ固有
+- **node_version**: 20+ (.node-version)
+- **package_manager**: pnpm@10.28.1
+- **license**: MIT
+- **bin_command**: fixdevcontainer
+- **main_export**: fixdevcontainer.js
+- **npm_package**: Published on npm
+- **purpose**: Sorting utility for devcontainer.json configuration files
+- **features**: Sorts keys by category (based on predefined order for easier reading)
+- **similar_tool**: Inspired by fixpack

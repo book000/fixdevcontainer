@@ -25,3 +25,12 @@
 - ログに機密情報を出力しない。
 
 ## リポジトリ固有
+- **node_version**: 20+ (.node-version)
+- **package_manager**: pnpm@10.28.1
+- **license**: MIT
+- **bin_command**: fixdevcontainer
+- **main_export**: fixdevcontainer.js
+- **npm_package**: Published on npm
+- **purpose**: Sorting utility for devcontainer.json configuration files
+- **features**: Sorts keys by category (based on predefined order for easier reading)
+- **similar_tool**: Inspired by fixpack
