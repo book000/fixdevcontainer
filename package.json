@@ -12,6 +12,10 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/book000/fixdevcontainer"
+  },
   "devDependencies": {
     "jest": "30.2.0"
   },
