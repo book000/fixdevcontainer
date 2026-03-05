@@ -16,6 +16,13 @@ The specific sorting is based on [predefinedOrder variable in fixdevcontainer.js
 npx fixdevcontainer
 ```
 
+Or install globally:
+
+```shell
+npm install -g fixdevcontainer
+fixdevcontainer
+```
+
 ## 📑 License
 
 This project is licensed under the [MIT License](LICENSE).
