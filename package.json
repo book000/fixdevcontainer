@@ -19,5 +19,5 @@
   "devDependencies": {
     "jest": "30.3.0"
   },
-  "packageManager": "pnpm@10.32.0"
+  "packageManager": "pnpm@10.32.1"
 }
