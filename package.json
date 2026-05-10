@@ -17,7 +17,7 @@
     "url": "https://github.com/book000/fixdevcontainer"
   },
   "devDependencies": {
-    "jest": "30.3.0"
+    "jest": "30.4.0"
   },
   "packageManager": "pnpm@10.33.4"
 }
