@@ -11,8 +11,11 @@ are preserved and appended alphabetically at the end with a warning.
 ## Development commands
 
 - `pnpm test`: run the Jest test suite (`fixdevcontainer.test.js`). This is the
-  only script and is what CI runs. There is no build step and no lint/format tool
-  configured.
+  only npm script defined; there is no build step and no lint/format tool
+  configured. CI (the reusable `book000/templates` Node CI workflow) runs this
+  test plus `npx depcheck`, which is why `.depcheckrc.json` exists (it ignores
+  `jest`, which is only referenced via config). Keep dependencies clean so
+  `depcheck` stays green.
 - `npx fixdevcontainer [file]`: run the tool. Defaults to
   `.devcontainer/devcontainer.json` when no path is given.
 
@@ -33,8 +36,10 @@ Use pnpm (see `packageManager` in `package.json`). Node version is pinned in
     `process.argv[2]`.
 - `fixdevcontainer.test.js`: Jest tests that mock `node:fs` and the `console`
   methods.
-- `.github/workflows/`: CI (`nodejs-ci-pnpm.yml`) and npm publish (`release.yml`)
-  reuse `book000/templates` workflows.
+- `.github/workflows/`: CI (`nodejs-ci-pnpm.yml`) and reviewer assignment
+  (`add-reviewer.yml`) reuse `book000/templates` workflows. npm publish
+  (`release.yml`) is a standalone workflow that defines its steps inline
+  (tag bump via `mathieudutour/github-tag-action`, then `pnpm publish`).
 
 ## Coding conventions
 
