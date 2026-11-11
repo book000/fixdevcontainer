@@ -57,9 +57,6 @@ const predefinedOrder = [
   // Mount details settings
   "mounts",
 
-  // User environment probe
-  "userEnvProbe",
-
   // Host requirements and customizations
   "hostRequirements",
   "customizations",
@@ -107,11 +104,11 @@ function formatter(filename) {
     }
   }
 
-  // Handle undefined keys by appending them at the end in alphabetical order
+  // Unknown keys are kept and appended alphabetically
   for (const key of Object.keys(jsonData).sort()) {
     console.warn(
       `\u001B[33mWarning: Undefined key '${key}' found in JSON\u001B[0m`
-    ); // Yellow text for warnings
+    );
     sortedJson[key] = jsonData[key];
   }
 

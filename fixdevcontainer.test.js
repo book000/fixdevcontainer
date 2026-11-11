@@ -1,164 +1,50 @@
 const fs = require("node:fs");
 const { formatter } = require("./fixdevcontainer");
 
-// Test case 1: Valid JSON input
+// Inputs list keys out of order; expected outputs list them in the order the
+// formatter must produce.
+
+// Valid input: known keys are reordered, including a nested object value.
 const input1 = {
-  name: "My Dev Container",
-  image: "my-dev-container",
-  workspaceFolder: "/workspace",
   additionalProperties: {
     prop1: "value1",
     prop2: "value2",
   },
+  workspaceFolder: "/workspace",
+  image: "my-dev-container",
+  name: "My Dev Container",
 };
 const expectedOutput1 = {
-  $schema: undefined,
   name: "My Dev Container",
   image: "my-dev-container",
-  dockerComposeFile: undefined,
-  service: undefined,
-  runServices: undefined,
-  build: undefined,
-  shutdownAction: undefined,
-  overrideCommand: undefined,
-  updateRemoteUserUID: undefined,
-  init: undefined,
-  privileged: undefined,
-  containerUser: undefined,
-  containerEnv: undefined,
-  remoteUser: undefined,
-  remoteEnv: undefined,
-  forwardPorts: undefined,
-  portsAttributes: undefined,
-  otherPortsAttributes: undefined,
-  features: undefined,
-  overrideFeatureInstallOrder: undefined,
-  secrets: undefined,
-  initializeCommand: undefined,
-  onCreateCommand: undefined,
-  updateContentCommand: undefined,
-  postCreateCommand: undefined,
-  postStartCommand: undefined,
-  postAttachCommand: undefined,
-  waitFor: undefined,
   workspaceFolder: "/workspace",
-  appPort: undefined,
-  runArgs: undefined,
-  workspaceMount: undefined,
-  type: undefined,
-  source: undefined,
-  target: undefined,
-  userEnvProbe: undefined,
-  hostRequirements: undefined,
-  customizations: undefined,
   additionalProperties: {
     prop1: "value1",
     prop2: "value2",
   },
 };
 
-// Test case 2: JSON input with undefined keys
+// Unknown keys are appended after the known keys in alphabetical order.
 const input2 = {
-  name: "My Dev Container",
-  image: "my-dev-container",
-  undefinedKey1: "value1",
   undefinedKey2: "value2",
+  undefinedKey1: "value1",
+  image: "my-dev-container",
+  name: "My Dev Container",
 };
 const expectedOutput2 = {
-  $schema: undefined,
   name: "My Dev Container",
   image: "my-dev-container",
-  dockerComposeFile: undefined,
-  service: undefined,
-  runServices: undefined,
-  build: undefined,
-  shutdownAction: undefined,
-  overrideCommand: undefined,
-  updateRemoteUserUID: undefined,
-  init: undefined,
-  privileged: undefined,
-  containerUser: undefined,
-  containerEnv: undefined,
-  remoteUser: undefined,
-  remoteEnv: undefined,
-  forwardPorts: undefined,
-  portsAttributes: undefined,
-  otherPortsAttributes: undefined,
-  features: undefined,
-  overrideFeatureInstallOrder: undefined,
-  secrets: undefined,
-  initializeCommand: undefined,
-  onCreateCommand: undefined,
-  updateContentCommand: undefined,
-  postCreateCommand: undefined,
-  postStartCommand: undefined,
-  postAttachCommand: undefined,
-  waitFor: undefined,
-  workspaceFolder: undefined,
-  appPort: undefined,
-  runArgs: undefined,
-  workspaceMount: undefined,
-  type: undefined,
-  source: undefined,
-  target: undefined,
-  userEnvProbe: undefined,
-  hostRequirements: undefined,
-  customizations: undefined,
-  additionalProperties: undefined,
   undefinedKey1: "value1",
   undefinedKey2: "value2",
 };
 
-// Test case 3: Empty JSON input
 const input3 = {};
-const expectedOutput3 = {
-  $schema: undefined,
-  name: undefined,
-  image: undefined,
-  dockerComposeFile: undefined,
-  service: undefined,
-  runServices: undefined,
-  build: undefined,
-  shutdownAction: undefined,
-  overrideCommand: undefined,
-  updateRemoteUserUID: undefined,
-  init: undefined,
-  privileged: undefined,
-  containerUser: undefined,
-  containerEnv: undefined,
-  remoteUser: undefined,
-  remoteEnv: undefined,
-  forwardPorts: undefined,
-  portsAttributes: undefined,
-  otherPortsAttributes: undefined,
-  features: undefined,
-  overrideFeatureInstallOrder: undefined,
-  secrets: undefined,
-  initializeCommand: undefined,
-  onCreateCommand: undefined,
-  updateContentCommand: undefined,
-  postCreateCommand: undefined,
-  postStartCommand: undefined,
-  postAttachCommand: undefined,
-  waitFor: undefined,
-  workspaceFolder: undefined,
-  appPort: undefined,
-  runArgs: undefined,
-  workspaceMount: undefined,
-  type: undefined,
-  source: undefined,
-  target: undefined,
-  userEnvProbe: undefined,
-  hostRequirements: undefined,
-  customizations: undefined,
-  additionalProperties: undefined,
-};
+const expectedOutput3 = {};
 
-// Test case 4: Invalid JSON input
 const input4 = "invalid json";
 const expectedOutput4 = undefined;
 
-// Mock the fs.readFileSync and fs.writeFileSync functions
+// Mock node:fs so no real file I/O happens
 jest.mock("node:fs", () => ({
   existsSync: jest.fn((filename) => {
     return (
@@ -182,13 +68,10 @@ jest.mock("node:fs", () => ({
   writeFileSync: jest.fn((filename, data, encoding) => {}),
 }));
 
-// Mock the console.log function
 console.log = jest.fn();
 
-// Mock the console.warn function
 console.warn = jest.fn();
 
-// Mock the console.error function
 console.error = jest.fn();
 
 describe("formatter", () => {
