@@ -144,4 +144,14 @@ describe("formatter", () => {
       "\u001B[31mError writing file: Error: Write error\u001B[0m"
     );
   });
+
+  it("should not run the formatter when the module is imported", () => {
+    jest.isolateModules(() => {
+      const isolatedFs = require("node:fs");
+      require("./fixdevcontainer");
+      expect(isolatedFs.existsSync).not.toHaveBeenCalled();
+      expect(isolatedFs.writeFileSync).not.toHaveBeenCalled();
+    });
+    expect(console.error).not.toHaveBeenCalled();
+  });
 });
