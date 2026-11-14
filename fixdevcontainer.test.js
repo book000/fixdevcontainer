@@ -38,6 +38,23 @@ const expectedOutput2 = {
   undefinedKey2: "value2",
 };
 
+const input5 = {
+  runArgs: ["--cap-add=SYS_PTRACE"],
+  overrideCommand: false,
+  runServices: ["app", "db"],
+  service: "app",
+  dockerComposeFile: "docker-compose.yml",
+  name: "My Dev Container",
+};
+const expectedOutput5 = {
+  name: "My Dev Container",
+  dockerComposeFile: "docker-compose.yml",
+  service: "app",
+  runServices: ["app", "db"],
+  overrideCommand: false,
+  runArgs: ["--cap-add=SYS_PTRACE"],
+};
+
 const input3 = {};
 const expectedOutput3 = {};
 
@@ -51,6 +68,7 @@ jest.mock("node:fs", () => ({
       filename === "valid.json" ||
       filename === "undefined_keys.json" ||
       filename === "empty.json" ||
+      filename === "compose.json" ||
       filename === "invalid.json"
     );
   }),
@@ -61,6 +79,8 @@ jest.mock("node:fs", () => ({
       return JSON.stringify(input2);
     } else if (filename === "empty.json") {
       return JSON.stringify(input3);
+    } else if (filename === "compose.json") {
+      return JSON.stringify(input5);
     } else if (filename === "invalid.json") {
       return input4;
     }
@@ -109,6 +129,16 @@ describe("formatter", () => {
     expect(fs.writeFileSync).toHaveBeenCalledWith(
       "undefined_keys.json",
       JSON.stringify(expectedOutput2, null, 2),
+      "utf8"
+    );
+  });
+
+  it("should treat Docker Compose and run-related keys as known keys", () => {
+    formatter("compose.json");
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      "compose.json",
+      JSON.stringify(expectedOutput5, null, 2),
       "utf8"
     );
   });
