@@ -75,13 +75,19 @@ console.warn = jest.fn();
 console.error = jest.fn();
 
 describe("formatter", () => {
+  beforeEach(() => {
+    process.exitCode = undefined;
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
+    process.exitCode = undefined;
   });
 
   it("should sort the JSON properties according to the predefined order", () => {
     const filename = "valid.json";
     formatter(filename);
+    expect(process.exitCode).toBeUndefined();
     expect(console.log).toHaveBeenCalledWith(
       `\u001B[32mSuccessfully sorted and written back to ${filename}\u001B[0m`
     );
@@ -125,6 +131,7 @@ describe("formatter", () => {
       "\u001B[31mError parsing JSON: SyntaxError: Unexpected token 'i', \"invalid json\" is not valid JSON\u001B[0m"
     );
     expect(fs.writeFileSync).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
   });
 
   it("should handle file read error", () => {
@@ -133,6 +140,19 @@ describe("formatter", () => {
       "\u001B[31mError: File not found: nonexistent.json\u001B[0m"
     );
     expect(fs.writeFileSync).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
+  });
+
+  it("should set exit code 1 when the file cannot be read", () => {
+    fs.readFileSync.mockImplementationOnce(() => {
+      throw new Error("Read error");
+    });
+    formatter("valid.json");
+    expect(console.error).toHaveBeenCalledWith(
+      "\u001B[31mError reading file: Error: Read error\u001B[0m"
+    );
+    expect(fs.writeFileSync).not.toHaveBeenCalled();
+    expect(process.exitCode).toBe(1);
   });
 
   it("should handle file write error", () => {
@@ -143,6 +163,7 @@ describe("formatter", () => {
     expect(console.error).toHaveBeenCalledWith(
       "\u001B[31mError writing file: Error: Write error\u001B[0m"
     );
+    expect(process.exitCode).toBe(1);
   });
 
   it("should not run the formatter when the module is imported", () => {

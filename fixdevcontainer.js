@@ -68,6 +68,7 @@ const predefinedOrder = [
 function loadJson(filename) {
   if (!fs.existsSync(filename)) {
     console.error(`\u001B[31mError: File not found: ${filename}\u001B[0m`);
+    process.exitCode = 1;
     return null;
   }
 
@@ -76,6 +77,7 @@ function loadJson(filename) {
     inputData = fs.readFileSync(filename, "utf8");
   } catch (error) {
     console.error(`\u001B[31mError reading file: ${error}\u001B[0m`);
+    process.exitCode = 1;
     return null;
   }
 
@@ -84,6 +86,7 @@ function loadJson(filename) {
     jsonData = JSON.parse(inputData);
   } catch (error) {
     console.error(`\u001B[31mError parsing JSON: ${error}\u001B[0m`);
+    process.exitCode = 1;
     return null;
   }
 
@@ -117,6 +120,7 @@ function formatter(filename) {
     fs.writeFileSync(filename, outputData, "utf8");
   } catch (error) {
     console.error(`\u001B[31mError writing file: ${error}\u001B[0m`);
+    process.exitCode = 1;
     return;
   }
 
