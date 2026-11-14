@@ -14,13 +14,18 @@ const predefinedOrder = [
   "dockerFile",
   "context",
   "image",
+  "dockerComposeFile",
+  "service",
+  "runServices",
 
   // Operational settings
   "shutdownAction",
+  "overrideCommand",
   "privileged",
   "capAdd",
   "securityOpt",
   "init",
+  "runArgs",
 
   // User and environment settings
   "containerEnv",
