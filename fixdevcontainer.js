@@ -127,6 +127,8 @@ function formatter(filename) {
 
 exports.formatter = formatter;
 
-const filename =
-  process.argv[2] || path.join(".devcontainer", "devcontainer.json");
-formatter(filename);
+if (require.main === module) {
+  const filename =
+    process.argv[2] || path.join(".devcontainer", "devcontainer.json");
+  formatter(filename);
+}

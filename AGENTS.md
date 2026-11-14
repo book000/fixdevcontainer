@@ -30,7 +30,7 @@ CI (`.github/workflows/nodejs-ci-pnpm.yml`, reusable workflow from `book000/temp
 - `fixdevcontainer.js`: the whole implementation (CommonJS, shebang; package `bin` and `main`).
   - `predefinedOrder`: known keys grouped by category. This array defines the tool's behavior.
   - `loadJson(filename)`: returns the parsed object, or `null` after logging an error (missing file, read error, parse error).
-  - `formatter(filename)`: reorders, appends unknown keys, writes back. Exported for tests, and also invoked at module load with `process.argv[2]`.
+  - `formatter(filename)`: reorders, appends unknown keys, writes back. Exported for tests. The CLI entry point runs it with `process.argv[2]` only when the file is executed directly (`require.main === module`), so importing the module has no side effect.
 - `fixdevcontainer.test.js`: Jest tests with `node:fs` and `console` mocked; no real file I/O.
 - `.github/workflows/release.yml`: on push to the default branch, bumps the version from commit prefixes (`feat` minor; `fix`, `docs`, `chore`, `refactor`, etc. patch; `release` major), then publishes to npm. Choose the commit type deliberately.
 
