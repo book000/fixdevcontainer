@@ -95,6 +95,12 @@ function loadJson(filename) {
     return null;
   }
 
+  if (jsonData === null || typeof jsonData !== "object" || Array.isArray(jsonData)) {
+    console.error("\u001B[31mError: JSON top level must be an object\u001B[0m");
+    process.exitCode = 1;
+    return null;
+  }
+
   return jsonData;
 }
 
@@ -104,7 +110,7 @@ function formatter(filename) {
     return;
   }
 
-  const sortedJson = {};
+  const sortedJson = Object.create(null);
   for (const key of predefinedOrder) {
     if (key in jsonData) {
       sortedJson[key] = jsonData[key];

@@ -133,6 +133,34 @@ describe("formatter", () => {
     );
   });
 
+  it("should preserve unknown __proto__ properties", () => {
+    fs.readFileSync.mockReturnValueOnce('{"name":"example","__proto__":{"extra":true}}');
+    formatter("valid.json");
+    expect(console.warn).toHaveBeenCalledWith(
+      "\u001B[33mWarning: Undefined key '__proto__' found in JSON\u001B[0m"
+    );
+    expect(fs.writeFileSync).toHaveBeenCalledWith(
+      "valid.json",
+      '{\n  "name": "example",\n  "__proto__": {\n    "extra": true\n  }\n}',
+      "utf8"
+    );
+    expect(process.exitCode).toBeUndefined();
+  });
+
+  it.each(["null", "false", "true", "42", '"text"', '["x"]'])(
+    "should reject a non-object top level: %s",
+    (input) => {
+      fs.readFileSync.mockReturnValueOnce(input);
+      formatter("valid.json");
+      expect(console.error).toHaveBeenCalledWith(
+        "\u001B[31mError: JSON top level must be an object\u001B[0m"
+      );
+      expect(fs.writeFileSync).not.toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
+      expect(process.exitCode).toBe(1);
+    }
+  );
+
   it("should treat Docker Compose and run-related keys as known keys", () => {
     formatter("compose.json");
     expect(console.warn).not.toHaveBeenCalled();
