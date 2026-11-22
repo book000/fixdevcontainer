@@ -70,6 +70,59 @@ const predefinedOrder = [
   "additionalProperties",
 ];
 
+function parseJsonc(input) {
+  let cleaned = "";
+  let inString = false;
+  let escaped = false;
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (inString) {
+      cleaned += char;
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === '"') inString = false;
+    } else if (char === '"') {
+      inString = true;
+      cleaned += char;
+    } else if (char === "/" && input[i + 1] === "/") {
+      cleaned += " ";
+      while (i < input.length && input[i] !== "\n" && input[i] !== "\r") i++;
+      if (i < input.length) cleaned += input[i];
+    } else if (char === "/" && input[i + 1] === "*") {
+      const end = input.indexOf("*/", i + 2);
+      if (end === -1) throw new SyntaxError("Unterminated block comment");
+      cleaned += " ";
+      i = end + 1;
+    } else {
+      cleaned += char;
+    }
+  }
+
+  let output = "";
+  let previous = "";
+  inString = false;
+  escaped = false;
+  for (let i = 0; i < cleaned.length; i++) {
+    const char = cleaned[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (char === "\\") escaped = true;
+      else if (char === '"') inString = false;
+    } else if (char === '"') {
+      inString = true;
+    } else if (char === ",") {
+      let next = i + 1;
+      while (next < cleaned.length && /\s/.test(cleaned[next])) next++;
+      if ((cleaned[next] === "}" || cleaned[next] === "]") && previous && !"[{,:".includes(previous)) {
+        continue;
+      }
+    }
+    output += char;
+    if (!/\s/.test(char)) previous = char;
+  }
+  return JSON.parse(output);
+}
+
 function loadJson(filename) {
   if (!fs.existsSync(filename)) {
     console.error(`\u001B[31mError: File not found: ${filename}\u001B[0m`);
@@ -88,7 +141,7 @@ function loadJson(filename) {
 
   let jsonData;
   try {
-    jsonData = JSON.parse(inputData);
+    jsonData = parseJsonc(inputData);
   } catch (error) {
     console.error(`\u001B[31mError parsing JSON: ${error}\u001B[0m`);
     process.exitCode = 1;
