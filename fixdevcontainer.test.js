@@ -104,6 +104,35 @@ describe("formatter", () => {
     process.exitCode = undefined;
   });
 
+  it("parses comments and nested trailing commas without changing string contents", () => {
+    fs.readFileSync.mockReturnValueOnce(`{
+      // a line comment
+      "unknown": "https://example.com/a/*literal*/,\\\"quoted\\\"",
+      "runArgs": ["one", /* block comment */ "two",],
+      "customizations": {"setting": true,},
+      "name": "example", // last property
+    }`);
+    formatter("valid.json");
+    expect(process.exitCode).toBeUndefined();
+    expect(console.warn).toHaveBeenCalledWith("\u001B[33mWarning: Undefined key 'unknown' found in JSON\u001B[0m");
+    expect(fs.writeFileSync).toHaveBeenCalledWith("valid.json", JSON.stringify({
+      name: "example",
+      runArgs: ["one", "two"],
+      customizations: { setting: true },
+      unknown: 'https://example.com/a/*literal*/,"quoted"',
+    }, null, 2), "utf8");
+  });
+
+  it.each(['{"name": /* unfinished', '{"name": ,}', '{"runArgs": [,]}', '{"name": true,,}'])(
+    "rejects malformed JSONC without writing: %s",
+    (input) => {
+      fs.readFileSync.mockReturnValueOnce(input);
+      formatter("valid.json");
+      expect(process.exitCode).toBe(1);
+      expect(fs.writeFileSync).not.toHaveBeenCalled();
+    }
+  );
+
   it("should sort the JSON properties according to the predefined order", () => {
     const filename = "valid.json";
     formatter(filename);

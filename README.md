@@ -20,7 +20,7 @@ npx fixdevcontainer
 npx fixdevcontainer path/to/devcontainer.json
 ```
 
-The file is rewritten in place (2-space indentation).
+JSON files with comments and trailing commas are supported. The file is rewritten in place as JSON (2-space indentation), so comments and trailing commas are removed.
 
 ## 📑 License
 
